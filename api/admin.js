@@ -16,7 +16,8 @@ export function createAdminHandler(storeProvider = getStore) {
         const page = selected.slice(0, 40);
         const entries = [];
         for (let i = 0; i < page.length; i += 8) {
-          const batch = await Promise.all(page.slice(i, i + 8).map(async key => { const record = await store.read(key); return record ? { ...record.data, key: key.slice(7, -5) } : null; }));
+          const batch = await Promise.all(page.slice(i, i + 8).map(async key => { const record = await store.read(key); // Only the time and page are returned; any older location data is never sent.
+          return record ? { key: key.slice(7, -5), openedAt: record.data.openedAt, page: record.data.page } : null; }));
           entries.push(...batch.filter(Boolean));
         }
         return response(res, 200, { visits: entries, total: all.length, next: selected.length > 40 ? page.at(-1).slice(7, -5) : null, retentionDays: 30 });

@@ -23,28 +23,20 @@ function loginScreen() {
   $("#confirm-password").required = Boolean(setupToken);
   $("#password").autocomplete = setupToken ? "new-password" : "current-password";
   $("#auth-title").textContent = setupToken ? "Make this corner yours." : "Your private corner.";
-  $("#auth-description").textContent = setupToken ? "Choose a private admin password of at least 12 characters. This setup link works once." : "Sign in to see when your gift was opened and any location a visitor chose to share.";
+  $("#auth-description").textContent = setupToken ? "Choose a private admin password of at least 12 characters. This setup link works once." : "Sign in to see when your gift was opened.";
   $("#auth-submit").textContent = setupToken ? "Set password & continue" : "Sign in";
 }
 function label(page) { return pageNames[page] || `Letter ${page.split("/")[1] || ""}`; }
-function locationLabel(location) { return location ? `${location.latitude.toFixed(6)}, ${location.longitude.toFixed(6)}` : "Location not shared"; }
 function cell(row, title, text) { const td = document.createElement("td"); td.dataset.label = title; if (text) td.textContent = text; row.append(td); return td; }
 function row(visit) {
   const tr = document.createElement("tr");
   const opened = cell(tr, "Opened");
   const time = document.createElement("time"); time.dateTime = new Date(visit.openedAt).toISOString(); time.textContent = date.format(visit.openedAt); opened.append(time);
   cell(tr, "Entry page", label(visit.page));
-  const place = cell(tr, "Shared location", locationLabel(visit.location));
-  if (visit.location) {
-    const detail = document.createElement("small"); detail.textContent = `Browser accuracy: ±${visit.location.accuracy.toLocaleString()} m`;
-    const map = document.createElement("a"); map.className = "map-link"; map.textContent = "View on map ↗"; map.target = "_blank"; map.rel = "noopener noreferrer"; map.referrerPolicy = "no-referrer";
-    map.href = `https://www.openstreetmap.org/?mlat=${visit.location.latitude}&mlon=${visit.location.longitude}#map=16/${visit.location.latitude}/${visit.location.longitude}`;
-    place.append(detail, map);
-  }
   const action = cell(tr, "");
   const remove = document.createElement("button"); remove.type = "button"; remove.className = "delete-visit"; remove.textContent = "Delete"; remove.setAttribute("aria-label", `Delete visit from ${date.format(visit.openedAt)}`);
   remove.addEventListener("click", async () => {
-    if (!confirm("Delete this visit and any shared location? This cannot be undone.")) return;
+    if (!confirm("Delete this visit? This cannot be undone.")) return;
     remove.disabled = true;
     try { await api({ action: "delete", key: visit.key }); await load(); }
     catch (error) { $("#dashboard-status").textContent = error.message; remove.disabled = false; }
@@ -63,8 +55,6 @@ async function load(append = false) {
       const latest = data.visits[0];
       $("#last-opened").textContent = latest ? date.format(latest.openedAt) : "No visits yet";
       $("#last-page").textContent = latest ? label(latest.page) : "New visits will appear here";
-      $("#last-location").textContent = latest ? locationLabel(latest.location) : "—";
-      $("#last-accuracy").textContent = latest?.location ? `Browser accuracy: ±${latest.location.accuracy.toLocaleString()} m` : "Shared only with permission";
     }
     data.visits.forEach(visit => $("#visits").append(row(visit)));
     loaded += data.visits.length; total = data.total; next = data.next;

@@ -17,7 +17,7 @@
       <section id="auth-panel" class="auth-panel" hidden>
         <span class="eyebrow">just for you</span>
         <h1 id="auth-title">Your private corner.</h1>
-        <p id="auth-description">Sign in to see when your gift was opened and any location a visitor chose to share.</p>
+        <p id="auth-description">Sign in to see when your gift was opened.</p>
         <form id="auth-form">
           <label for="password" id="password-label">Admin password</label>
           <input id="password" name="password" type="password" autocomplete="current-password" minlength="12" maxlength="128" required>
@@ -28,18 +28,17 @@
         <a href="/" class="back-link">← Back to the gift</a>
       </section>
       <section id="dashboard" hidden>
-        <div class="heading-row"><div><span class="eyebrow">your little guestbook</span><h1>Visits, just for you.</h1><p>Times are shown in Manila (UTC+8). Location appears only after the visitor chooses to share it.</p></div><div class="toolbar"><button type="button" id="refresh">Refresh</button><button type="button" id="logout">Sign out</button></div></div>
+        <div class="heading-row"><div><span class="eyebrow">your little guestbook</span><h1>Visits, just for you.</h1><p>Times are shown in Manila (UTC+8).</p></div><div class="toolbar"><button type="button" id="refresh">Refresh</button><button type="button" id="logout">Sign out</button></div></div>
         <div class="summary-grid">
           <article class="summary-card"><span>Last opened</span><strong id="last-opened">—</strong><small id="last-page">No visits recorded yet</small></article>
-          <article class="summary-card"><span>Location of latest visit</span><strong id="last-location">—</strong><small id="last-accuracy">Shared only with permission</small></article>
           <article class="summary-card"><span>Visits in the last 30 days</span><strong id="visit-total">0</strong><small>Your signed-in visits are excluded</small></article>
         </div>
         <div class="history-heading"><h2>Activity history</h2><span id="loaded-count"></span></div>
         <p class="form-status" id="dashboard-status" role="status"></p>
-        <div class="table-scroll"><table><thead><tr><th scope="col">Opened</th><th scope="col">Entry page</th><th scope="col">Shared location</th><th scope="col"><span class="sr-only">Actions</span></th></tr></thead><tbody id="visits"></tbody></table></div>
+        <div class="table-scroll"><table><thead><tr><th scope="col">Opened</th><th scope="col">Entry page</th><th scope="col"><span class="sr-only">Actions</span></th></tr></thead><tbody id="visits"></tbody></table></div>
         <div id="empty-state" class="empty-state" hidden><span aria-hidden="true">✉</span><h3>A quiet little corner, for now.</h3><p>New visits will appear here. Earlier visits cannot be recovered.</p></div>
         <button type="button" id="load-more" class="load-more" hidden>Load earlier visits</button>
-        <p class="retention-note">Browser location accuracy varies. A shared point is not proof of someone’s identity or exact address. Records leave this log after 30 days; storage cleanup can take up to another day.</p>
+        <p class="retention-note">Records leave this log after 30 days; storage cleanup can take up to another day.</p>
         <details class="password-settings"><summary>Change admin password</summary><form id="password-form"><label for="current-password">Current password</label><input id="current-password" type="password" autocomplete="current-password" required maxlength="128"><label for="new-password">New password (at least 12 characters)</label><input id="new-password" type="password" autocomplete="new-password" minlength="12" maxlength="128" required><label for="new-password-confirm">Confirm new password</label><input id="new-password-confirm" type="password" autocomplete="new-password" minlength="12" maxlength="128" required><button type="submit" class="primary">Update password</button><p id="password-status" class="form-status" role="status"></p></form></details>
       </section>
       <p id="initial-status" class="initial-status" role="status">Checking your session…</p>

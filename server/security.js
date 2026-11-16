@@ -88,20 +88,6 @@ export async function rateLimit(store, req, scope, limit, minutes = 15) {
   }
   throw new HttpError(429, "Please wait a moment and try again.");
 }
-export function signedVisit(id, createdAt) {
-  const payload = Buffer.from(JSON.stringify({ id, createdAt })).toString("base64url");
-  return `${payload}.${createHmac("sha256", config().sessionSecret).update(`visit:${payload}`).digest("base64url")}`;
-}
-export function readVisitToken(token) {
-  if (typeof token !== "string" || token.length > 512) throw new HttpError(403, "Visit has expired. Refresh the page to start again.");
-  const [payload, signature, extra] = token.split(".");
-  const expected = createHmac("sha256", config().sessionSecret).update(`visit:${payload}`).digest("base64url");
-  if (extra || !equal(signature, expected)) throw new HttpError(403, "Invalid visit.");
-  let value;
-  try { value = JSON.parse(Buffer.from(payload, "base64url").toString()); } catch { throw new HttpError(403, "Invalid visit."); }
-  if (!/^[a-f0-9]{32}$/.test(value.id) || !Number.isSafeInteger(value.createdAt) || value.createdAt > Date.now() + 60000 || Date.now() - value.createdAt > DAY) throw new HttpError(403, "Visit has expired. Refresh the page to start again.");
-  return { ...value, key: `visits/${value.createdAt}-${value.id}.json` };
-}
 export function cookieName() { return process.env.VERCEL ? "__Host-tantan-admin" : "tantan-admin"; }
 function cookieToken(req) {
   const item = String(req.headers.cookie || "").split(";").map(part => part.trim()).find(part => part.startsWith(`${cookieName()}=`));
