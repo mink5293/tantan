@@ -13,7 +13,7 @@ async function collect(directory) {
     else files.add(relative);
   }
 }
-for (const directory of ["js", "css", "assets"]) await collect(directory);
+for (const directory of ["js", "css", "assets", "admin"]) await collect(directory);
 for (const asset of Object.values(mascots)) {
   if (asset.image) files.add(asset.image);
   if (asset.still) files.add(asset.still);

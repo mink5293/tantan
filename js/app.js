@@ -1,4 +1,5 @@
 import { introduction, letters, mascots } from "./content.js";
+import { startActivityLog } from "./activity.js";
 
 const view = document.querySelector("#view");
 const pageCounter = document.querySelector("#page-counter");
@@ -248,3 +249,4 @@ document.addEventListener("visibilitychange", () => {
   if (document.hidden) view.querySelectorAll("video").forEach((video) => video.pause());
 });
 render();
+startActivityLog();

@@ -13,3 +13,5 @@ assests/*.png
 assests/gifts_envelop/Screen_Recording_20261114_225131_Roblox.mp4
 .DS_Store
 Thumbs.db
+
+.env*
