@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.qa/
+.qodo/
+.vercel/
+.env
+.env.*
+!.env.example
+# Local brief and design references are not part of the published website.
+prompt.md
+assests/*.png
+# Keep this original locally; deploy the smaller .web.mp4 copy instead.
+assests/gifts_envelop/Screen_Recording_20261114_225131_Roblox.mp4
+.DS_Store
+Thumbs.db

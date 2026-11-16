@@ -1,0 +1,8 @@
+.git/
+.qa/
+.qodo/
+node_modules/
+dist/
+prompt.md
+assests/*.png
+assests/gifts_envelop/Screen_Recording_20261114_225131_Roblox.mp4
